@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
       org_id: org,
       email: req.body.email,
       password: req.body.password,
-      role: 'user'
+      role: req.body.user || 'user'
     }
     const user = await Users.newUser(newUser)
     const token = generateToken(user)
