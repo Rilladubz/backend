@@ -1,17 +1,11 @@
 const express = require('express')
-const cors = require('cors')
-const helmet = require('helmet')
-
+const configureMiddleware = require('./config/middleware.js')
 const server = express()
 
-server.use(helmet())
-server.use(express.json())
-server.use(cors())
+configureMiddleware(server)
 
 server.get('/', (req, res) => {
-  res.send(`
-        <h1>Product Queue Server</h1>
-    `)
+  return res.send({ status: 'live' })
 })
 
 module.exports = server
