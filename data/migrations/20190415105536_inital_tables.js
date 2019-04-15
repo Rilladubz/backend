@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return knex.schema
     .createTable('organizations', table => {
       table.increments()
-      table.string('name')
+      table.string('name').unique()
       table.timestamp('created_at').defaultTo(knex.fn.now())
     })
 
