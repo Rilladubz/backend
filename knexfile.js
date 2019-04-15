@@ -1,9 +1,4 @@
 const password = process.env.PG_PW || 'password'
-const production = process.env.DATABASE_URL || {
-  database: 'productqueueprod',
-  user: 'postgres',
-  password: password
-}
 
 module.exports = {
   development: {
@@ -20,11 +15,6 @@ module.exports = {
     seeds: {
       directory: './data/seeds'
     }
-    // pool: {
-    //   afterCreate: (conn, done) => {
-    //     conn.run('PRAGMA foreign_keys = ON', done)
-    //   }
-    // }
   },
 
   testing: {
@@ -45,7 +35,8 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: production,
+    connection: process.env.DATABASE_URL,
+    ssl: true,
     migrations: {
       tableName: './data/migrations'
     },
