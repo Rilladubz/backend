@@ -52,4 +52,26 @@ const getUserById = id => {
     .first()
 }
 
-module.exports = { newOrg, newUser, getUser, getUserById }
+const updateUser = async (id, user) => {
+  await db('users')
+    .where({ id })
+    .update(user)
+  return db('users')
+    .where({ id })
+    .first()
+}
+
+const getCompanyName = id => {
+  return db('organizations')
+    .where({ id })
+    .first()
+}
+
+module.exports = {
+  newOrg,
+  newUser,
+  getUser,
+  getUserById,
+  updateUser,
+  getCompanyName
+}

@@ -2,6 +2,8 @@ const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const authenticate = require('../config/authenticate.js')
+
 const Users = require('../models/users.js')
 
 router.post('/register', async (req, res) => {
@@ -67,6 +69,36 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Server error while logging in' })
+  }
+})
+
+router.put('/:id', authenticate, async (req, res) => {
+  if (req.user_id.toString() === req.params.id || req.admin) {
+    try {
+      if (req.body.password) {
+        req.body.password = bcrypt.hashSync(req.body.password, 8)
+      }
+      const [org] = await Users.newOrg({ name: req.body.company })
+      delete req.body.company
+      const user = await Users.updateUser(req.params.id, {
+        ...req.body,
+        org_id: org
+      })
+      if (user) {
+        delete user.password
+        const company = await Users.getCompanyName(org)
+        res.status(200).json({ ...user, company: company.name })
+      } else {
+        res.status(404).json({ message: 'User not found' })
+      }
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ message: 'Server error updating user information' })
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' })
   }
 })
 

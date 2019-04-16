@@ -86,6 +86,54 @@ URL: /api/users/login
 **500 (Internal Server Error)**
 > If there was a server error logging the user in, a response with status code 500 will be returned.
 
+## Register a New User
+
+HTTP Method: PUT
+
+URL: /api/users/:id
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String| Yes | Uses the token from login/register |
+
+### Body
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| first_name | String | No | First name of user |
+| last_name | String | No | Last name of user |
+| company | String | No | User's company's name |
+| email | String | No | User's email address |
+| password | String | No | User's chosen password |
+
+### Example
+
+```json
+{
+	"first_name": "Kevin",
+    "last_name": "Smith",
+    "company": "New Company",
+    "email": "new@user.com",
+    "password": "password"
+}
+```
+
+### Response
+
+**200 (OK)**
+> If successfully updated, endpoint will return HTTP response with status code and a body with user's id, first & last name, role, email address, and company name
+
+**404 (Not Found)**
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+> If token information does not match user id in URL parameters, or role is not admin, status code 401 will be returned
+
+**500 (Internal Server Error)**
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
 ## Get List of All Projects
 
 HTTP Method: GET
