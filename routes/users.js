@@ -27,11 +27,18 @@ router.post('/register', async (req, res) => {
       org_id: org,
       email: req.body.email,
       password: req.body.password,
-      role: 'user'
+      role: req.body.user || 'user'
     }
     const user = await Users.newUser(newUser)
     const token = generateToken(user)
-    res.status(201).json({ token: token })
+    res.status(201).json({
+      id: user.id,
+      token: token,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      company: req.body.company,
+      email: user.email
+    })
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Server error creating new user' })
@@ -44,7 +51,14 @@ router.post('/login', async (req, res) => {
     const user = await Users.getUser(email)
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user)
-      res.status(200).json({ token })
+      res.status(200).json({
+        token,
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        company: user.company,
+        email: user.email
+      })
     } else {
       res.status(401).json({ message: 'Invalid credentials' })
     }

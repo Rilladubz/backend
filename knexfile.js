@@ -1,5 +1,3 @@
-const password = process.env.PG_PW || 'password'
-
 module.exports = {
   development: {
     client: 'pg',
@@ -22,7 +20,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: 'postgres',
-      password: password,
+      password: 'tadpoles',
       database: 'productqueuetest'
     },
     migrations: {

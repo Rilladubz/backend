@@ -23,6 +23,15 @@ const newUser = async user => {
 const getUser = email => {
   return db('users')
     .where({ email })
+    .join('organizations', 'organizations.id', 'users.org_id')
+    .select(
+      'users.id',
+      'organizations.name as company',
+      'users.first_name',
+      'users.last_name',
+      'users.email',
+      'users.password'
+    )
     .first()
 }
 
