@@ -37,7 +37,8 @@ router.post('/register', async (req, res) => {
       first_name: user.first_name,
       last_name: user.last_name,
       company: req.body.company,
-      email: user.email
+      email: user.email,
+      role: user.role
     })
   } catch (err) {
     console.log(err)
@@ -57,7 +58,8 @@ router.post('/login', async (req, res) => {
         first_name: user.first_name,
         last_name: user.last_name,
         company: user.company,
-        email: user.email
+        email: user.email,
+        role: user.role
       })
     } else {
       res.status(401).json({ message: 'Invalid credentials' })
