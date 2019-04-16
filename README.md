@@ -86,7 +86,7 @@ URL: /api/users/login
 **500 (Internal Server Error)**
 > If there was a server error logging the user in, a response with status code 500 will be returned.
 
-## Register a New User
+## Update a User's Information
 
 HTTP Method: PUT
 
@@ -124,6 +124,46 @@ URL: /api/users/:id
 
 **200 (OK)**
 > If successfully updated, endpoint will return HTTP response with status code and a body with user's id, first & last name, role, email address, and company name
+
+**404 (Not Found)**
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+> If token information does not match user id in URL parameters, or role is not admin, status code 401 will be returned
+
+**500 (Internal Server Error)**
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
+## Update a User's Information
+
+HTTP Method: GET
+
+URL: /api/users/:id
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String| Yes | Uses the token from login/register |
+
+### Example
+
+```json
+{
+    "id": 1,
+	"first_name": "Kevin",
+    "last_name": "Smith",
+    "company": "New Company",
+    "email": "new@user.com",
+    "role": "user"
+}
+```
+
+### Response
+
+**200 (OK)**
+> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
 
 **404 (Not Found)**
 > If no user found, status code 404 will be returned
