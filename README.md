@@ -344,3 +344,30 @@ URL: /api/projects/:id (Where ID is user ID)
 
 **500 (Internal Server Error)**
 > If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Delete a Project
+
+HTTP Method: DELETE
+
+URL: /api/projects/:id/:projectId (Where ID is project creator's ID)
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String | Yes | Token from registration/login |
+
+### Response
+
+**200 (OK)**
+> If successfully deleted, endpoint will return HTTP response with status code 200
+
+**404 (Not Found)**
+> If there is not a project with that project ID, response status 404 will be returned
+
+**401 (Not Authorized)**
+> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+> If there was a server error creating the project, a response with status code 500 will be returned.

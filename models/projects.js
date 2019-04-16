@@ -44,4 +44,16 @@ const newProject = async project => {
   return getByProjectId(id)
 }
 
-module.exports = { getAll, getAllByUserId, getByProjectId, newProject }
+const removeProject = id => {
+  return db('projects')
+    .where({ id })
+    .del()
+}
+
+module.exports = {
+  getAll,
+  getAllByUserId,
+  getByProjectId,
+  newProject,
+  removeProject
+}
