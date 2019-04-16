@@ -9,15 +9,13 @@ const authenticate = (req, res, next) => {
     jwt.verify(token, jwtKey, (err, decoded) => {
       if (err) return res.status(401).json(err)
       req.decoded = decoded
-      if (decoded.role === 'admin' || decoded.id === req.params.id) {
-        next()
-      } else {
-        return res.status(401).json({ message: 'Unauthorized' })
-      }
+      decoded.role === 'admin' ? (req.admin = true) : (req.admin = false)
+      req.user_id = decoded.subject
+      next()
     })
   } else {
     return res.status(401).json({ message: 'Please log in' })
   }
 }
 
-module.exports = { authenticate }
+module.exports = authenticate

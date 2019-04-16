@@ -30,9 +30,26 @@ const getUser = email => {
       'users.first_name',
       'users.last_name',
       'users.email',
+      'users.role',
       'users.password'
     )
     .first()
 }
 
-module.exports = { newOrg, newUser, getUser }
+const getUserById = id => {
+  return db('users')
+    .where('users.id', id)
+    .join('organizations', 'organizations.id', 'users.org_id')
+    .select(
+      'users.id',
+      'organizations.name as company',
+      'users.first_name',
+      'users.last_name',
+      'users.email',
+      'users.role',
+      'users.password'
+    )
+    .first()
+}
+
+module.exports = { newOrg, newUser, getUser, getUserById }

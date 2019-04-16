@@ -4,7 +4,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: 'postgres',
-      password: 'tadpoles',
+      password: process.env.PG_PW,
       database: 'productqueuedev'
     },
     migrations: {
@@ -20,7 +20,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: 'postgres',
-      password: 'tadpoles',
+      password: process.env.PG_PW,
       database: 'productqueuetest'
     },
     migrations: {
