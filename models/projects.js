@@ -50,10 +50,21 @@ const removeProject = id => {
     .del()
 }
 
+const updateProject = async (id, project) => {
+  await db('projects')
+    .where({ id })
+    .update(project)
+    .update('updated_at', db.fn.now())
+  return db('projects')
+    .where({ id })
+    .first()
+}
+
 module.exports = {
   getAll,
   getAllByUserId,
   getByProjectId,
   newProject,
-  removeProject
+  removeProject,
+  updateProject
 }

@@ -3,7 +3,14 @@ exports.up = function(knex) {
     .createTable('organizations', table => {
       table.increments()
       table.string('name').unique()
-      table.timestamp('created_at').defaultTo(knex.fn.now())
+      table
+        .datetime('created_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
+      table
+        .datetime('updated_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
     })
 
     .createTable('users', table => {
@@ -24,7 +31,14 @@ exports.up = function(knex) {
         .unique()
       table.string('password').notNullable()
       table.string('role')
-      table.timestamp('created_at').defaultTo(knex.fn.now())
+      table
+        .datetime('created_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
+      table
+        .datetime('updated_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
     })
 
     .createTable('projects', table => {
@@ -41,8 +55,14 @@ exports.up = function(knex) {
       table.string('description').notNullable()
       table.binary('attachment')
       table.string('status').notNullable()
-      table.timestamp('created_at').defaultTo(knex.fn.now())
-      table.timestamp('updated_at').defaultTo(knex.fn.now())
+      table
+        .datetime('created_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
+      table
+        .datetime('updated_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
     })
 
     .createTable('comments', table => {
@@ -64,8 +84,14 @@ exports.up = function(knex) {
         .onDelete('RESTRICT')
         .onUpdate('CASCADE')
       table.string('comment').notNullable()
-      table.timestamp('created_at').defaultTo(knex.fn.now())
-      table.timestamp('updated_at').defaultTo(knex.fn.now())
+      table
+        .datetime('created_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
+      table
+        .datetime('updated_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
     })
 
     .createTable('links', table => {
@@ -88,8 +114,14 @@ exports.up = function(knex) {
         .onUpdate('CASCADE')
       table.string('link_type').notNullable()
       table.string('link_href').notNullable()
-      table.timestamp('created_at').defaultTo(knex.fn.now())
-      table.timestamp('updated_at').defaultTo(knex.fn.now())
+      table
+        .datetime('created_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
+      table
+        .datetime('updated_at')
+        .notNullable()
+        .defaultTo(knex.fn.now())
     })
 }
 

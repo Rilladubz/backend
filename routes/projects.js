@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const knex = require('knex')
 
 const Projects = require('../models/projects.js')
 const Users = require('../models/users.js')
@@ -137,6 +138,24 @@ router.delete('/:id/:projectId', async (req, res) => {
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: 'Server error deleting the project' })
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+})
+
+router.put('/:id/:projectId', async (req, res) => {
+  if (req.user_id.toString() === req.params.id || req.admin) {
+    try {
+      const newProject = { ...req.body }
+      const project = await Projects.updateProject(
+        req.params.projectId,
+        newProject
+      )
+      res.status(200).json(project)
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({ message: 'Server error updating the project' })
     }
   } else {
     return res.status(401).json({ message: 'Unauthorized' })
