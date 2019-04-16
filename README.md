@@ -371,3 +371,47 @@ URL: /api/projects/:id/:projectId (Where ID is project creator's ID)
 
 **500 (Internal Server Error)**
 > If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Update an Existing Project
+
+HTTP Method: PUT
+
+URL: /api/projects/:id/:projectId (Where ID is user ID)
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String | Yes | Token from registration/login |
+
+### Body
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| name | String | No | Name of project |
+| description | String | No | Description of project |
+| attachment | Binary | No | Used if attachment included with registration |
+| status | String | No | Status of project |
+
+### Example
+
+```json
+{
+	"name": "Project Name",
+	"description": "Project Description",
+	"attachment": null,
+	"status": "Reviewing",
+}
+```
+
+### Response
+
+**200 (Created)**
+> If successfully updated, endpoint will return HTTP response with status code 200 and an object with project information
+
+**401 (Not Authorized)**
+> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+> If there was a server error creating the project, a response with status code 500 will be returned.
+
