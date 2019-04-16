@@ -81,4 +81,38 @@ router.get('/:id/:projectId', async (req, res) => {
   }
 })
 
+router.post('/:id', async (req, res) => {
+  if (!req.body.name || !req.body.description) {
+    res
+      .status(406)
+      .json({ message: 'Project name and description are required' })
+    return
+  }
+  try {
+    const project = {
+      user_id: req.params.id,
+      name: req.body.name,
+      description: req.body.description,
+      attachment: req.body.attachment,
+      status: 'Pending'
+    }
+    const newProject = await Projects.newProject(project)
+    if (req.body.links) {
+      req.body.links.forEach(async link => {
+        const newLink = {
+          user_id: req.params.id,
+          project_id: newProject.id,
+          link_type: link.link_type,
+          link_href: link.link_href
+        }
+        await Links.addLink(newLink)
+      })
+    }
+    res.status(201).json(newProject.id)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Server error creating new project' })
+  }
+})
+
 module.exports = router

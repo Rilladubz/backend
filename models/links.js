@@ -4,4 +4,10 @@ const getLinksByProject = id => {
   return db('links').where({ project_id: id })
 }
 
-module.exports = { getLinksByProject }
+const addLink = link => {
+  return db('links')
+    .insert(link)
+    .returning('id')
+}
+
+module.exports = { getLinksByProject, addLink }

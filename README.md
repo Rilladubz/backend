@@ -292,4 +292,55 @@ URL: /api/projects/:id/:projectId
 > If the token provided does not match to an admin account or the user id from the token does not match the id in the URL, or if a token is not provided, status code 401 will be returned
 
 **500 (Internal Server Error)**
-> If there was a server error retrieving the project list, a response with status code 500 will be returned.
+> If there was a server error retrieving the project, a response with status code 500 will be returned.
+
+## Create a New Project
+
+HTTP Method: POST
+
+URL: /api/projects/:id (Where ID is user ID)
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String | Yes | Token from registration/login |
+
+### Body
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| name | String | Yes | Name of project |
+| description | String | Yes | Description of project |
+| attachment | Binary | No | Used if attachment included with registration |
+| links | Array | No | Array of links to external sites/files |
+
+### Example
+
+```json
+{
+	"name": "Project Name",
+	"description": "Project Description",
+	"attachment": null,
+	"links": [
+        {
+            "link_type": "GitHub Repo",
+            "link_href": "https://www.example.com"
+        }
+	]
+}
+```
+
+### Response
+
+**201 (Created)**
+> If successfully created, endpoint will return HTTP response with status code 200 and the project id number
+
+**406 (Not Acceptable)**
+> If required information is missing, the endpoint will return an HTTP response with a status code of 400
+
+**401 (Not Authorized)**
+> If token is not provided, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+> If there was a server error creating the project, a response with status code 500 will be returned.
