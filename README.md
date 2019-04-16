@@ -39,7 +39,7 @@ URL: /api/users/register
 ### Response
 
 **201 (Created)**
-> If successfully registered, endpoint will return HTTP response with status code and a body with a token
+> If successfully registered, endpoint will return HTTP response with status code and a body with a token, user's id, first & last name, email address, and company name
 
 **400 (Bad Request)**
 > If required information is missing, the endpoint will return an HTTP response with a status code of 400
@@ -77,7 +77,7 @@ URL: /api/users/login
 ### Response
 
 **200 (OK)**
-> If successfully registered, endpoint will return HTTP response with status code and a body with a token
+> If successfully registered, endpoint will return HTTP response with status code and a body with a token and user's id, first & last name, email address, and company name.
 
 **401 (Unauthorized)**
 > If email address is not found or password is incorrect, status 401 will be returned
