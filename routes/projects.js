@@ -162,4 +162,19 @@ router.put('/:id/:projectId', async (req, res) => {
   }
 })
 
+router.post('/:projectId/comments', async (req, res) => {
+  try {
+    const newComment = {
+      user_id: req.body.user_id,
+      project_id: req.params.projectId,
+      comment: req.body.comment
+    }
+    const comment = await Comments.addComment(newComment)
+    res.status(201).json(comment)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Server error while posting new comment' })
+  }
+})
+
 module.exports = router
