@@ -4,4 +4,10 @@ const getCommentsByProject = id => {
   return db('comments').where({ project_id: id })
 }
 
-module.exports = { getCommentsByProject }
+const removeComment = id => {
+  return db('comments')
+    .where({ id })
+    .del()
+}
+
+module.exports = { getCommentsByProject, removeComment }

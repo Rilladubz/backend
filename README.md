@@ -86,7 +86,7 @@ URL: /api/users/login
 **500 (Internal Server Error)**
 > If there was a server error logging the user in, a response with status code 500 will be returned.
 
-## Register a New User
+## Update a User's Information
 
 HTTP Method: PUT
 
@@ -124,6 +124,46 @@ URL: /api/users/:id
 
 **200 (OK)**
 > If successfully updated, endpoint will return HTTP response with status code and a body with user's id, first & last name, role, email address, and company name
+
+**404 (Not Found)**
+> If no user found, status code 404 will be returned
+
+**401 (Unauthorized)**
+> If token information does not match user id in URL parameters, or role is not admin, status code 401 will be returned
+
+**500 (Internal Server Error)**
+> If there was a server error registering the user, a response with status code 500 will be returned.
+
+## Update a User's Information
+
+HTTP Method: GET
+
+URL: /api/users/:id
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String| Yes | Uses the token from login/register |
+
+### Example
+
+```json
+{
+    "id": 1,
+	"first_name": "Kevin",
+    "last_name": "Smith",
+    "company": "New Company",
+    "email": "new@user.com",
+    "role": "user"
+}
+```
+
+### Response
+
+**200 (OK)**
+> If successfully found, endpoint will return HTTP response with status code and a body similar to example above
 
 **404 (Not Found)**
 > If no user found, status code 404 will be returned
@@ -344,3 +384,74 @@ URL: /api/projects/:id (Where ID is user ID)
 
 **500 (Internal Server Error)**
 > If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Delete a Project
+
+HTTP Method: DELETE
+
+URL: /api/projects/:id/:projectId (Where ID is project creator's ID)
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String | Yes | Token from registration/login |
+
+### Response
+
+**200 (OK)**
+> If successfully deleted, endpoint will return HTTP response with status code 200
+
+**404 (Not Found)**
+> If there is not a project with that project ID, response status 404 will be returned
+
+**401 (Not Authorized)**
+> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+> If there was a server error creating the project, a response with status code 500 will be returned.
+
+## Update an Existing Project
+
+HTTP Method: PUT
+
+URL: /api/projects/:id/:projectId (Where ID is user ID)
+
+### Headers
+
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| Content-Type | String | Yes | Must be application/json |
+| Authorization | String | Yes | Token from registration/login |
+
+### Body
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| name | String | No | Name of project |
+| description | String | No | Description of project |
+| attachment | Binary | No | Used if attachment included with registration |
+| status | String | No | Status of project |
+
+### Example
+
+```json
+{
+	"name": "Project Name",
+	"description": "Project Description",
+	"attachment": null,
+	"status": "Reviewing",
+}
+```
+
+### Response
+
+**200 (Created)**
+> If successfully updated, endpoint will return HTTP response with status code 200 and an object with project information
+
+**401 (Not Authorized)**
+> If token is not provided or token does not match admin or id from URL, the endpoint will return HTTP response with status code 401
+
+**500 (Internal Server Error)**
+> If there was a server error creating the project, a response with status code 500 will be returned.
+

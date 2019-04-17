@@ -102,6 +102,27 @@ router.put('/:id', authenticate, async (req, res) => {
   }
 })
 
+router.get('/:id', authenticate, async (req, res) => {
+  if (req.user_id.toString() === req.params.id || req.admin) {
+    try {
+      const user = await Users.getUserById(req.params.id)
+      if (user) {
+        delete user.password
+        res.status(200).json(user)
+      } else {
+        res.status(404).json({ message: 'No user with that id found' })
+      }
+    } catch {
+      console.log(err)
+      res
+        .status(500)
+        .json({ message: 'Server error retrieving user information' })
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+})
+
 function generateToken(user) {
   const payload = {
     subject: user.id,

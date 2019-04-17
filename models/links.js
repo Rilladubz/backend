@@ -10,4 +10,10 @@ const addLink = link => {
     .returning('id')
 }
 
-module.exports = { getLinksByProject, addLink }
+const removeLink = id => {
+  return db('links')
+    .where({ id })
+    .del()
+}
+
+module.exports = { getLinksByProject, addLink, removeLink }

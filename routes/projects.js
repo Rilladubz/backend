@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const knex = require('knex')
 
 const Projects = require('../models/projects.js')
 const Users = require('../models/users.js')
@@ -112,6 +113,52 @@ router.post('/:id', async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Server error creating new project' })
+  }
+})
+
+router.delete('/:id/:projectId', async (req, res) => {
+  if (req.user_id.toString() === req.params.id || req.admin) {
+    try {
+      const links = await Links.getLinksByProject(req.params.projectId)
+      if (links.length) {
+        links.forEach(async link => await Links.removeLink(link.id))
+      }
+      const comments = await Comments.getCommentsByProject(req.params.projectId)
+      if (comments.length) {
+        comments.forEach(
+          async comment => await Comments.removeComment(comment.id)
+        )
+      }
+      const count = await Projects.removeProject(req.params.projectId)
+      if (count > 0) {
+        res.status(200).json({ message: 'Project has been deleted' })
+      } else {
+        res.status(404).json({ message: 'Project not found' })
+      }
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({ message: 'Server error deleting the project' })
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+})
+
+router.put('/:id/:projectId', async (req, res) => {
+  if (req.user_id.toString() === req.params.id || req.admin) {
+    try {
+      const newProject = { ...req.body }
+      const project = await Projects.updateProject(
+        req.params.projectId,
+        newProject
+      )
+      res.status(200).json(project)
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({ message: 'Server error updating the project' })
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' })
   }
 })
 

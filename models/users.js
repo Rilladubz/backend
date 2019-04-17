@@ -56,6 +56,7 @@ const updateUser = async (id, user) => {
   await db('users')
     .where({ id })
     .update(user)
+    .update('updated_at', db.fn.now())
   return db('users')
     .where({ id })
     .first()
