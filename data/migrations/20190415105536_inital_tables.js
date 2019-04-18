@@ -52,7 +52,7 @@ exports.up = function(knex) {
         .onDelete('RESTRICT')
         .onUpdate('CASCADE')
       table.string('name').notNullable()
-      table.string('description').notNullable()
+      table.string('description', 100000).notNullable()
       table.binary('attachment')
       table.string('status').notNullable()
       table
