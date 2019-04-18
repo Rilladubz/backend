@@ -40,7 +40,7 @@ describe('projects model', () => {
 
         it('should return the added project', async () => {
             const [org] = await Users.newOrg({
-                name: "new copany"
+                name: "new company2"
             });
             
             const user = await Users.newUser({
