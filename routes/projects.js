@@ -1,6 +1,5 @@
 
 const router = require('express').Router()
-const knex = require('knex')
 
 const Projects = require('../models/projects.js')
 const Users = require('../models/users.js')
@@ -177,6 +176,23 @@ router.post('/:projectId/comments', async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Server error while posting new comment' })
+  }
+})
+
+router.post('/:projectId/links', async (req, res) => {
+  try {
+    const newLink = {
+      user_id: req.user_id,
+      project_id: req.params.projectId,
+      link_type: req.body.link_type,
+      link_href: req.body.link_href
+    }
+    await Links.addLink(newLink)
+    const links = await Links.getLinksByProject(req.params.projectId)
+    res.status(201).json(links)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Server error while adding new link' })
   }
 })
 
