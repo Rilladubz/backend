@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
   if (req.user_id.toString() === req.params.id || req.admin) {
     try {
       const projects = await Projects.getAll()
+      await projects.sort((a, b) => b.created_at - a.created_at)
       res.status(200).json(projects)
     } catch (err) {
       console.log(err)
@@ -24,6 +25,7 @@ router.get('/:id', async (req, res) => {
   if (req.user_id.toString() === req.params.id || req.admin) {
     try {
       const projects = await Projects.getAllByUserId(req.params.id)
+      await projects.sort((a, b) => b.created_at - a.created_at)
       res.status(200).json(projects)
     } catch (err) {
       console.log(err)
