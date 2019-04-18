@@ -11,6 +11,7 @@ const getAll = () => {
       'projects.created_at',
       'projects.updated_at',
       'projects.description',
+      'users.id as user_id',
       'users.first_name',
       'users.last_name',
       'users.email',
