@@ -23,7 +23,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id')
         .inTable('organizations')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table
         .string('email')
@@ -49,7 +49,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id')
         .inTable('users')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table.string('name').notNullable()
       table.string('description').notNullable()
@@ -73,7 +73,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id')
         .inTable('users')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table
         .integer('project_id')
@@ -81,7 +81,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id')
         .inTable('projects')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table.string('comment').notNullable()
       table
@@ -102,7 +102,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id')
         .inTable('users')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table
         .integer('project_id')
@@ -110,7 +110,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id')
         .inTable('projects')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table.string('link_type').notNullable()
       table.string('link_href').notNullable()

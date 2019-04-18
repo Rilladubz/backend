@@ -22,8 +22,8 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: 'postgres',
-      password: process.env.PG_PW,
-      database: 'productqueuetest'
+      password: 'matt123!',
+      database: 'postgres_test'
     },
     migrations: {
       directory: './data/migrations'
