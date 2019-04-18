@@ -1,44 +1,78 @@
-const db = require('../data/dbConfig.js')
-const Users = require('../models/users.js')
+const db = require('../data/dbConfig.js');
+const Users = require('../models/users.js');
 
-describe('Users model', () => {
-  describe('newOrg()', () => {
-    it.skip('should add the new organization', async () => {
-      await Users.newOrg({ name: 'Company' })
-      const users = await db('organizations')
-      expect(users).toHaveLength(3)
-    })
+test.todo('getUserById');
+test.todo('updateUser');
+test.todo('getCompanyName');
 
-    it.skip('should not add a new organization if it already exists', async () => {
-      await Users.newOrg({ name: 'Lambda School' })
-      const users = await db('organizations')
-      expect(users).toHaveLength(3)
-    })
+describe('users model', () => {
+    beforeEach(async () => { 
+        return await db.raw(
+          'TRUNCATE "organizations", users, projects, comments RESTART IDENTITY CASCADE'
+        );
+    });
 
-    it('should return company id of existing', async () => {
-      const [org] = await Users.newOrg({ name: 'Lambda School' })
-      expect(org).toBe(1)
-    })
+    describe('newOrg()', () => {
+        it('should add the new organization', async () => {
+          await Users.newOrg({ name: 'Company' })
+          const users = await db('organizations')
+          expect(users).toHaveLength(1)
+        })
+    
+        it('should not add a new organization if it already exists', async () => {
+          await Users.newOrg({ name: 'Lambda School' })
+          const users = await db('organizations')
+        //   await console.log("users:", users);
+          expect(users).toHaveLength(1)
+        })
+    
+        it('should return company id of existing', async () => {
+          const [org] = await Users.newOrg({ name: 'Lambda School' });
+          expect(org).toBe(1)
+        })
+    
+        it('should return company id of new', async () => {
+          const [org] = await Users.newOrg({ name: 'Lambda School 2' })
+        //   await console.log("new org:", org);
+          expect(org).toBe(1)
+        })
+      })
 
-    it.skip('should return company id of new', async () => {
-      const [org] = await Users.newOrg({ name: 'Lambda School 2' })
-      expect(org).toBe(4)
-    })
-  })
+    describe('insert user', () => {
+        it('should insert a user', async () => {
+            const [org] = await Users.newOrg({
+                name: "new company"
+            });
+            
+            await Users.newUser({
+                first_name: "Kevin",
+                last_name: "Smith",
+                org_id: org,
+                email: "thisisanewemail@newemailforsure.com",
+                password: "password"
+            });
+            const users = await db('users');
+            expect(users).toHaveLength(1);
+        });
+    });
 
-  describe('newUser()', () => {
-    const testUser = {
-      first_name: 'Kevin',
-      last_name: 'Smith',
-      org_id: 1,
-      email: 'kevin@newuser.com',
-      password: 'password'
-    }
+    describe('get', () => {
+        it('should get a user', async () => {
+            const [org] = await Users.newOrg({
+                name: "totally new company"
+            });
 
-    it('should add a new user', async () => {
-      await Users.newUser(testUser)
-      const users = db('users')
-      expect(users).toHaveLength(5)
-    })
-  })
-})
+            const targetUser = await Users.newUser({
+                first_name: 'Kevin',
+                last_name: 'Smith',
+                org_id: org,
+                email: 'kevin@newuser.com',
+                password: 'password'
+            });
+
+            const user = await Users.getUser(targetUser.email);
+            console.log('user:', user);
+            expect(user.length).toBe(1);
+        });
+    });
+});
