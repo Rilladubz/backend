@@ -6,7 +6,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: 'postgres',
-      password: process.env.PG_PW,
+      password: 'matt123!',
       database: 'productqueuedev'
     },
     migrations: {
